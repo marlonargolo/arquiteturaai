@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inteligência Artificial</title>
+    {% load static %} <!-- Certifique-se de que esta linha está presente no início -->
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- Estilos CSS -->
+<style>
+    /* Reseta margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #082b20;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: transform 0.3s ease; /* Animação para o slide */
+    transform: translateY(-100%); /* Oculta inicialmente */
+}
+.navbar.visible {
+    transform: translateY(0); /* Exibe quando ativo */
+}
+.navbar .logo a {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 1.5rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #00bcd4;
+}
+
+/* Responsividade para o menu */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Você pode ajustar para um menu hambúrguer aqui */
+    }
+}
+/* Menu lateral - apenas para dispositivos móveis */
+    .mobile-menu {
+        display: none;
+    }
+
+    .menu-icon {
+        display: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+
+        .menu-icon {
+            display: block;
+        }
+
+        .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: -250px; /* Oculto por padrão */
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            transition: left 0.3s ease;
+            z-index: 100;
+        }
+
+        .mobile-menu.active {
+            left: 0; /* Exibe o menu */
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mobile-menu li {
+            margin: 1rem 0;
+        }
+
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #00bcd4;
+        }
+    }
+/* Estilo do Header e Slider */
+header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #082b27;
+    color: #fff;
+}
+
+.header-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Estilo do Swiper */
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.swiper-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Seções */
+section {
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+section img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 1rem;
+    transition: transform 0.3s ease;
+}
+
+section img:hover {
+    transform: scale(1.05);
+}
+
+h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .header-title {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}
+
+</style>
+</head>
+<body>
+    <!-- Cabeçalho com Slider -->
+    <header id="home">
+        <!-- Menu de Navegação -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#home">Arquitetura de IA</a>
+            </div>
+            <!-- Ícone de Menu para Dispositivos Móveis -->
+            <i class="fas fa-bars menu-icon" onclick="toggleMobileMenu()"></i>
+
+            <ul class="nav-links">
+                <li><a href="#sobre-nos">Sobre Nós</a></li>
+                <li><a href="#o-que-fazemos">O que Fazemos</a></li>
+                <li><a href="#nossas-tecnologias">Tecnologias</a></li>
+                <li><a href="#acessa-ai">Acessa Aí</a></li>
+                <li><a href="{% url 'home' %}">Iniciar</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#sobre-nos" onclick="toggleMobileMenu()">Sobre Nós</a></li>
+                <li><a href="#o-que-fazemos" onclick="toggleMobileMenu()">O que Fazemos</a></li>
+                <li><a href="#nossas-tecnologias" onclick="toggleMobileMenu()">Tecnologias</a></li>
+                <li><a href="#acessa-ai" onclick="toggleMobileMenu()">Acessa Aí</a></li>
+                <li><a href="{% url 'home' %}" onclick="toggleMobileMenu()">Iniciar</a></li>
+            </ul>
+        </div>
+
+        
+        <!-- Slider do Cabeçalho -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="{% static 'images/aia/1.png' %}" alt="Slide 1"></div>
+                <div class="swiper-slide"><img src="{% static 'images/2.png' %}" alt="Slide 2"></div>
+                <div class="swiper-slide"><img src="{% static 'images/3.png' %}" alt="Slide 3"></div>
+                <div class="swiper-slide"><img src="{% static 'images/4.png' %}" alt="Slide 4"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </header>
+    <!-- Seções da Landing Page -->
+    <section id="sobre-nos">
+        <h2>Sobre Nós</h2>
+        <p>Exploramos o potencial da inteligência artificial para transformar negócios e criar soluções inovadoras.</p>
+        <img src="{% static 'images/aia/2.png' %}" alt="Sobre nós">
+        <img src="{% static 'images/aia/3.png' %}" alt="Sobre nós">
+
+    </section>
+
+    <section id="o-que-fazemos">
+        <h2>O que Fazemos por Você</h2>
+        <p>Oferecemos serviços de IA para otimizar operações, melhorar a eficiência e criar novas oportunidades.</p>
+        <img src="{% static 'images/aia/4.png' %}" alt="O que fazemos">
+        <img src="{% static 'images/aia/5.png' %}" alt="O que fazemos">
+
+    </section>
+
+    <section id="nossas-tecnologias">
+        <h2>Nossas Tecnologias</h2>
+        <p>Utilizamos tecnologias de ponta para desenvolver soluções personalizadas e de alto impacto.</p>
+        <img src="{% static 'images/aia/6.png'%}" alt="Nossas tecnologias">
+        <img src="{% static 'images/aia/7.png'%}" alt="Nossas tecnologias">
+
+    </section>
+
+    <section id="acessa-ai">
+        <h2>Acessa Aí</h2>
+        <p>Explore nossa plataforma e descubra como a IA pode transformar o seu negócio.</p>
+        <img src="{% static 'images/aia/8.png' %}" alt="Acessa aí">
+        <img src="{% static 'images/aia/9.png' %}" alt="Acessa aí">
+    </section>
+
+    <!-- Scripts JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Configuração do Swiper.js para o Slider
+const swiper = new Swiper('.swiper-container', {
+    loop: true,
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+});
+  // Função para alternar a visibilidade do menu móvel
+  function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('active');
+}
+
+// Animação com Three.js
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const geometry = new THREE.SphereGeometry(5, 32, 32);
+const material = new THREE.MeshBasicMaterial({ color: 0x082b27, wireframe: true });
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+camera.position.z = 15;
+
+function animate() {
+    requestAnimationFrame(animate);
+    sphere.rotation.x += 0.01;
+    sphere.rotation.y += 0.01;
+    renderer.render(scene, camera);
+}
+animate();
+
+// Ajuste do canvas 3D na tela
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
+
+    </script>
+    <script>
+        // Exibir o cabeçalho ao mover o mouse
+        let navbar = document.querySelector('.navbar');
+        let mouseMoveTimeout;
+
+        document.addEventListener('mousemove', () => {
+            navbar.classList.add('visible');
+
+            clearTimeout(mouseMoveTimeout);
+            mouseMoveTimeout = setTimeout(() => {
+                navbar.classList.remove('visible');
+            }, 3000); // O cabeçalho desaparecerá após 3 segundos de inatividade
+        });
+    </script>
+</body>
+</html>

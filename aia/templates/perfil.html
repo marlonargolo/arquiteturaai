@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Usuário</title>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Swiper.js CSS para transições -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <!-- CSS Customizado -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Container principal */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Menu lateral para desktop */
+        .sidebar {
+            width: 250px;
+            background-color: #111827;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin: 1rem 0;
+            width: 100%;
+        }
+
+        .sidebar ul li a {
+            color: #9ca3af;
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        .sidebar ul li a .icon {
+            margin-right: 10px;
+        }
+
+        /* Conteúdo principal */
+        .content {
+            flex: 1;
+            background-color: #fff;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Títulos */
+        .content h2 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        /* Seções do conteúdo */
+        .content-section {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .content-section.active {
+            display: flex;
+        }
+
+        /* Botão de upload de foto */
+        .profile-photo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-photo-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #9ca3af;
+        }
+
+        .upload-btn {
+            padding: 0.5rem 1rem;
+            color: white;
+            background-color: #4f46e5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .upload-btn:hover {
+            background-color: #3b34c7;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+
+            .sidebar ul li a {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Menu Lateral -->
+        <div class="sidebar">
+            <h2>Meu Painel</h2>
+            <ul>
+                <li><a href="#profile" class="menu-link" onclick="switchSection('profile')"><i class="fas fa-user icon"></i>Perfil</a></li>
+                <li><a href="#payment" class="menu-link" onclick="switchSection('payment')"><i class="fas fa-credit-card icon"></i>Pagamentos</a></li>
+                <li><a href="#settings" class="menu-link" onclick="switchSection('settings')"><i class="fas fa-cog icon"></i>Configurações</a></li>
+                <li><a href="#whatsapp" class="menu-link" onclick="switchSection('whatsapp')"><i class="fab fa-whatsapp icon"></i>WhatsApp</a></li>
+                <li><a href="#subscription" class="menu-link" onclick="switchSection('subscription')"><i class="fas fa-stream icon"></i>Inscrições</a></li>
+            </ul>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="content">
+            <!-- Perfil -->
+            <div class="content-section active" id="profile">
+                <h2>Configurações do Perfil</h2>
+                <div class="profile-photo-container">
+                    <img src="https://via.placeholder.com/100" alt="Foto de Perfil">
+                    <button class="upload-btn">Upload Foto</button>
+                </div>
+                <input type="text" placeholder="Nome">
+                <input type="email" placeholder="Email">
+            </div>
+
+            <!-- Pagamentos -->
+            <div class="content-section" id="payment">
+                <h2>Opções de Pagamento</h2>
+                <p>Gerencie suas formas de pagamento aqui.</p>
+                <!-- Exemplo de D3.js para gráfico de pagamento -->
+                <div id="payment-chart"></div>
+            </div>
+
+            <!-- Configurações -->
+            <div class="content-section" id="settings">
+                <h2>Configurações Gerais</h2>
+                <p>Configurações de conta, notificações, e privacidade.</p>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="content-section" id="whatsapp">
+                <h2>Integração com WhatsApp</h2>
+                <p>Vincule seu número de WhatsApp para notificações e atendimento direto.</p>
+                <button class="upload-btn">Conectar ao WhatsApp</button>
+            </div>
+
+            <!-- Inscrições -->
+            <div class="content-section" id="subscription">
+                <h2>Acompanhar Inscrição</h2>
+                <p>Visualize e acompanhe suas inscrições.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Swiper.js para navegação responsiva -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- D3.js para gráficos -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>
+        // Função para alternar entre as seções
+        function switchSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Exemplo de D3.js: Gráfico de pagamento básico
+        const svg = d3.select("#payment-chart").append("svg")
+            .attr("width", 300)
+            .attr("height", 300);
+
+        svg.append("circle")
+            .attr("cx", 150)
+            .attr("cy", 150)
+            .attr("r", 100)
+            .style("fill", "#4f46e5");
+    </script>
+</body>
+</html>
